@@ -13,7 +13,7 @@ interface HeaderProps {
   cartCount?: number;
 }
 
-export default function Header({ currentUser = null, cartCount }: HeaderProps = {}) {
+const  Header=({ currentUser = null, cartCount }: HeaderProps = {}) =>{
   const { user } = useAuthUser();
   const effectiveUser = currentUser ?? user;
   const { items } = useCart({ userId: effectiveUser?.uid });
@@ -199,3 +199,5 @@ export default function Header({ currentUser = null, cartCount }: HeaderProps = 
     </header>
   );
 }
+
+export default Header;

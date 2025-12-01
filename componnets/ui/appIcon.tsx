@@ -17,7 +17,7 @@ interface IconProps {
     [key: string]: any;
 }
 
-function Icon({
+const Icon=({
     name,
     variant = 'outline',
     size = 24,
@@ -25,7 +25,7 @@ function Icon({
     onClick,
     disabled = false,
     ...props
-}: IconProps) {
+}: IconProps)=> {
     const iconSet:any = variant === 'solid' ? HeroIconsSolid : HeroIcons;
     const IconComponent = iconSet?.[name];
 

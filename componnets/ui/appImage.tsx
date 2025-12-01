@@ -9,7 +9,7 @@ type AppImageProps = Omit<ImageProps, 'src' | 'alt'> & {
   fallbackSrc?: string;
 };
 
-export default function AppImage({
+const AppImage=({
   src,
   alt,
   width,
@@ -24,7 +24,7 @@ export default function AppImage({
   fallbackSrc = '/assets/images/no_image.png',
   onClick,
   ...props
-}: AppImageProps) {
+}: AppImageProps) =>{
   const [imageSrc, setImageSrc] = useState(src);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
@@ -51,9 +51,7 @@ export default function AppImage({
       ${onClick ? 'cursor-pointer hover:opacity-90 transition-opacity' : ''}
     `.trim();
 
-  // --------------------------------------------
-  // 🔹 CASE 1: External image → use <img> fallback
-  // --------------------------------------------
+
   if (isExternal) {
     return (
       <img
@@ -64,21 +62,18 @@ export default function AppImage({
         className={commonClassName}
         onError={handleError}
         onLoad={handleLoad}
-        onClick={onClick as any}
+        onClick={onClick}
       />
     );
   }
 
-  // --------------------------------------------
-  // 🔹 CASE 2: Local image → use Next.js <Image>
-  // --------------------------------------------
   const nextImageProps: ImageProps = {
     src: imageSrc,
     alt,
     className: commonClassName,
     priority,
     quality,
-    placeholder, // ✔️ TS safe: only "blur" | "empty"
+    placeholder, 
     blurDataURL,
     onError: handleError,
     onLoadingComplete: handleLoad,
@@ -103,3 +98,6 @@ export default function AppImage({
     />
   );
 }
+
+
+export default AppImage;

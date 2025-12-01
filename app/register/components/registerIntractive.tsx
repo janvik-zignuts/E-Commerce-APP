@@ -1,8 +1,6 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
-import PropTypes from 'prop-types';
 import RegistrationForm from './registerForm';
 import SocialLoginOptions from './SocialLoginOptions';
 
@@ -13,9 +11,7 @@ interface RegistrationInteractiveProps {
     };
   }
 
-export default function RegistrationInteractive({ initialData }:RegistrationInteractiveProps) {
-
-
+const RegistrationInteractive=({ initialData }:RegistrationInteractiveProps) =>{
   return (
     <div className="min-h-screen bg-background ">
       <div className="max-w-md mx-auto">
@@ -52,4 +48,6 @@ export default function RegistrationInteractive({ initialData }:RegistrationInte
     </div>
   );
 }
+
+export default RegistrationInteractive;
 

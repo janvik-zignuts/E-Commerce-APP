@@ -10,7 +10,7 @@ import AppImage from '@/componnets/ui/appImage';
 
 type CheckoutStatus = 'idle' | 'processing' | 'success' | 'error';
 
-export default function CartInteractive() {
+const  CartInteractive=()=> {
   const router = useRouter();
   const { user, loading: authLoading } = useAuthUser();
   const {
@@ -23,7 +23,6 @@ export default function CartInteractive() {
     checkout,
   } = useCart({ userId: user?.uid });
 
-  
 
   const [status, setStatus] = useState<CheckoutStatus>('idle');
   const [message, setMessage] = useState<string | null>(null);
@@ -260,3 +259,4 @@ export default function CartInteractive() {
   );
 }
 
+export default CartInteractive;

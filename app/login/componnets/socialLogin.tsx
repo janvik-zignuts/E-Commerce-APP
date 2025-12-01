@@ -6,19 +6,9 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import { JSX, useCallback } from "react";
+import { useCallback } from "react";
+import { ProviderConfig, SocialLoginProps } from "../interface";
 
-interface SocialLoginProps {
-  isLoading?: boolean;
-}
-
-interface ProviderConfig {
-  name: "Google" | "Facebook";
-  icon: JSX.Element;
-  bgColor: string;
-  textColor: string;
-  borderColor: string;
-}
 
 const GoogleIcon = () => (
   <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
@@ -41,7 +31,7 @@ const GoogleIcon = () => (
   </svg>
 );
 
-export default function SocialLogin({ isLoading = false }: SocialLoginProps) {
+const  SocialLogin=({ isLoading = false }: SocialLoginProps)=> {
   const socialProviders: ProviderConfig[] = [
     {
       name: "Google",
@@ -115,3 +105,5 @@ export default function SocialLogin({ isLoading = false }: SocialLoginProps) {
     </div>
   );
 }
+
+export default SocialLogin;

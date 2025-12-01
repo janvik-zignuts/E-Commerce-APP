@@ -39,11 +39,11 @@ const RegisterSchema = Yup.object().shape({
 
 type RegisterFormData = Yup.InferType<typeof RegisterSchema>;
 
-export default function RegistrationForm() {
+const  RegistrationForm=() =>{
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
- 
+
   const {
     register,
     handleSubmit,
@@ -203,3 +203,6 @@ export default function RegistrationForm() {
     </form>
   );
 }   
+
+
+export default RegistrationForm

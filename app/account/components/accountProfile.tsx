@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Icon from '@/componnets/ui/appIcon';
 import { useAuthUser } from '@/hooks/useAuthUser';
 
-export default function AccountProfile() {
+const AccountProfile=()=> {
   const { user, loading } = useAuthUser();
 
   if (loading) {
@@ -78,12 +78,14 @@ export default function AccountProfile() {
   );
 }
 
+export default AccountProfile;
+
 interface ProfileDetailProps {
   label: string;
   value: string;
 }
 
-function ProfileDetail({ label, value }: ProfileDetailProps) {
+const  ProfileDetail=({ label, value }: ProfileDetailProps)=>{
   return (
     <div className="rounded-xl border border-border bg-muted/30 p-4">
       <p className="text-xs font-semibold uppercase tracking-wide text-text-secondary">{label}</p>
@@ -92,7 +94,7 @@ function ProfileDetail({ label, value }: ProfileDetailProps) {
   );
 }
 
-function formatDate(dateString: string | null | undefined) {
+const  formatDate=(dateString: string | null | undefined) =>{
   if (!dateString) {
     return 'Not available';
   }

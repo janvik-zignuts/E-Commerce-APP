@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import Icon from '@/componnets/ui/appIcon';
 
-export default function OrderConfirmation() {
+const  OrderConfirmation=() =>{
   const searchParams = useSearchParams();
   const orderId = searchParams.get('orderId');
 
@@ -53,3 +53,5 @@ export default function OrderConfirmation() {
   );
 }
 
+
+export default OrderConfirmation;

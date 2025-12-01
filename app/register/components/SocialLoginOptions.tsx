@@ -2,21 +2,9 @@
 
 import { auth, googleProvider, facebookProvider } from '@/lib/firbase';
 import { getAdditionalUserInfo, signInWithPopup, AuthProvider } from 'firebase/auth';
+import { SocialLoginOptionsProps, SocialProvider } from '../interface';
 
-interface SocialLoginOptionsProps {
-  isLoading?: boolean;
-}
-
-interface SocialProvider {
-  name: 'Google' | 'Facebook';
-  icon: 'google' | 'facebook';
-  bgColor: string;
-  textColor: string;
-  borderColor: string;
-  provider: AuthProvider;
-}
-
-export default function SocialLoginOptions({ isLoading = false }: SocialLoginOptionsProps) {
+const  SocialLoginOptions=({ isLoading = false }: SocialLoginOptionsProps) =>{
   
   const socialProviders: SocialProvider[] = [
     {
@@ -83,3 +71,4 @@ export default function SocialLoginOptions({ isLoading = false }: SocialLoginOpt
     </div>
   );
 }
+export default SocialLoginOptions;

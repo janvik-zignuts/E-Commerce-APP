@@ -6,7 +6,7 @@ import LoginForm from './loginForm';
 import SocialLogin from './socialLogin';
 
 
-export default function LoginInteractive() {
+const LoginInteractive=() =>{
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLoginSuccess = () => {
@@ -56,3 +56,5 @@ export default function LoginInteractive() {
     </div>
   );
 }
+
+export default LoginInteractive;

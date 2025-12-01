@@ -26,7 +26,7 @@ interface LoginFormProps {
   onSuccess?: () => void;
 }
 
-export default function LoginForm({ onSuccess }: LoginFormProps) {
+const LoginForm=({ onSuccess }: LoginFormProps) =>{
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [serverError, setServerError] = useState("");
@@ -224,3 +224,5 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
     </form>
   );
 }
+
+export default LoginForm;

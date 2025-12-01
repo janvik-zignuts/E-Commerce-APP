@@ -74,14 +74,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             }`}
           >
             <p className="font-medium">{toast.message}</p>
-            {/* {toast.actionHref && toast.actionLabel && (
-              <Link
-                href={toast.actionHref}
-                className="mt-2 inline-flex items-center text-xs font-semibold text-primary hover:underline"
-              >
-                {toast.actionLabel}
-              </Link>
-            )} */}
+
           </div>
         ))}
       </div>
