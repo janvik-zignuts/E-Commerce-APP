@@ -167,7 +167,7 @@ export default function ProductCatalogInteractive({
     <div className="min-h-screen bg-background">
       <div className="mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-[1400px]">
         <div className="mb-8">
-          <h1 className="text-3xl lg:text-4xl font-bold">Fashion Collection</h1>
+          <h1 className="text-3xl text-gray-600 lg:text-4xl font-bold">Fashion Collection</h1>
           <p className="text-gray-500">Discover the latest trends in fashion and style</p>
         </div>
 
@@ -202,8 +202,8 @@ export default function ProductCatalogInteractive({
             {/* 🔹 Load More Button */}
             {filteredProducts.length > 0 && !isLoading && (
               <div className="flex justify-center pt-8">
-                <button className="px-6 py-3 bg-gray-100 border rounded-md">
-                  Load More Products
+                <button className="px-6 py-3  rounded-md cursor-pointer bg-blue-500 text-white">
+                Show More Products
                 </button>
               </div>
             )}

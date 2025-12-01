@@ -6,6 +6,7 @@ import Icon from "../ui/appIcon";
 import { useAuthUser } from "@/hooks/useAuthUser";
 import { useCart } from "@/hooks/useCart";
 import type { User } from "firebase/auth";
+import { usePathname } from "next/navigation";
 
 interface HeaderProps {
   currentUser?: (User & { role?: string }) | null;
@@ -43,6 +44,7 @@ export default function Header({ currentUser = null, cartCount }: HeaderProps = 
   }, [derivedCartCount]);
 
   const isAdmin = (effectiveUser as any)?.role === 'admin';
+  const pathname = usePathname();
 
   const navigationItems = [
     {
@@ -94,7 +96,8 @@ export default function Header({ currentUser = null, cartCount }: HeaderProps = 
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="text-primary-foreground"
+                  className="text-blue-600"
+
                 />
                 <path
                   d="M2 17L12 22L22 17"
@@ -102,7 +105,8 @@ export default function Header({ currentUser = null, cartCount }: HeaderProps = 
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="text-primary-foreground"
+                  className="text-blue-600"
+
                 />
                 <path
                   d="M2 12L12 17L22 12"
@@ -110,27 +114,37 @@ export default function Header({ currentUser = null, cartCount }: HeaderProps = 
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="text-primary-foreground"
+                  className="text-blue-600"
                 />
               </svg>
             </div>
-            <span className="text-xl font-semibold text-primary font-heading hidden sm:block">
+            <span className="text-xl font-semibold text-blue-600 font-heading hidden sm:block">
               FashionHub
             </span>
           </Link>
 
           <nav className="hidden md:flex items-center space-x-1 lg:space-x-2">
-            {visibleItems?.map((item) => (
-              <Link
-                key={item?.path}
-                href={item?.path}
-                className="flex items-center space-x-2 px-4 py-2 rounded-md text-sm font-medium text-text-primary hover:bg-muted transition-smooth min-h-touch"
-              >
-                <Icon name={item?.icon} size={20} variant="outline" />
-                <span>{item?.label}</span>
-              </Link>
-            ))}
-          </nav>
+      {visibleItems?.map((item) => {
+        const isActive = pathname === item.path; // highlight when matched
+
+        return (
+          <Link
+            key={item?.path}
+            href={item?.path}
+            className={`flex items-center space-x-2 px-4 py-2 rounded-md text-sm font-medium min-h-touch transition-smooth
+              ${
+                isActive
+                  ? "bg-blue-100 text-blue-600" // 🔵 highlighted style
+                  : "text-text-primary hover:bg-muted"
+              }
+            `}
+          >
+            <Icon name={item?.icon} size={20} variant="outline" />
+            <span>{item?.label}</span>
+          </Link>
+        );
+      })}
+    </nav>
 
           <div className="flex items-center space-x-4">
             <Link

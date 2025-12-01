@@ -14,7 +14,6 @@ export default function UserRegistrationPage() {
 
   return (
     <>
-      {/* <Header currentUser={null} cartCount={0} /> */}
       <RegistrationInteractive initialData={pageData} />
     </>
   );

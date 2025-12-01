@@ -51,27 +51,27 @@ export default function ProductCard({
         />
 
         {product.isNew && (
-          <span className="absolute top-3 left-3 px-3 py-1 bg-accent text-accent-foreground text-xs font-semibold rounded-full">
+          <span className="absolute top-3 left-3 px-3 py-1 bg-red-500 text-white text-xs font-semibold rounded-full">
             New
           </span>
         )}
 
         {product.discount && product.discount > 0 && (
-          <span className="absolute top-3 right-3 px-3 py-1 bg-success text-success-foreground text-xs font-semibold rounded-full">
+          <span className="absolute top-3 right-3 px-3 py-1 bg-green-600 text-white  text-xs font-semibold rounded-full">
             -{product.discount}%
           </span>
         )}
       </div>
 
       {/* Content */}
-      <div className="p-4 space-y-3">
+      <div className="p-4 space-y-2">
         {/* Category + Title */}
-        <div className="space-y-1">
-          <span className="inline-block px-2 py-1 bg-muted text-text-secondary text-xs font-medium rounded">
+        <div >
+          <span className="inline-block px-2 py-1 bg-muted text-blue-500 uppercase text-sm font-bold rounded">
             {product.category}
           </span>
 
-          <h3 className="text-base font-semibold text-text-primary line-clamp-2 min-h-[3rem]">
+          <h3 className="text-base font-semibold text-text-primary line-clamp-2 ">
             {product.name}
           </h3>
         </div>
@@ -82,6 +82,7 @@ export default function ProductCard({
             {Array.from({ length: 5 }).map((_, i) => (
               <Icon
                 key={i}
+                color="orange"
                 name="StarIcon"
                 size={16}
                 variant={i < Math.floor(product.rating) ? "solid" : "outline"}

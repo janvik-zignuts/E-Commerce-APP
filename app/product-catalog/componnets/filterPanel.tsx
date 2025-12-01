@@ -3,9 +3,7 @@
 import { useState } from "react";
 import Icon from "@/componnets/ui/appIcon";
 
-/* -------------------------------------------------------------------------- */
-/*                                  TYPES                                     */
-/* -------------------------------------------------------------------------- */
+
 
 export interface Filters {
   category: string;
@@ -23,9 +21,6 @@ interface FilterPanelProps {
   onFilterChange: (newFilters: Filters) => void;
 }
 
-/* -------------------------------------------------------------------------- */
-/*                                CONSTANT DATA                                */
-/* -------------------------------------------------------------------------- */
 
 const CATEGORIES = [
   { id: "all", label: "All Products", count: 156 },
@@ -53,9 +48,7 @@ const BRANDS = [
   { id: "uniqlo", label: "Uniqlo", count: 22 },
 ];
 
-/* -------------------------------------------------------------------------- */
-/*                                COMPONENT                                    */
-/* -------------------------------------------------------------------------- */
+
 
 export default function FilterPanel({
   filters,
@@ -76,11 +69,10 @@ export default function FilterPanel({
     brand: true,
   });
 
-  /* ----------------------------- SECTION TOGGLE ----------------------------- */
+
   const toggleSection = (key: keyof typeof expandedSections) =>
     setExpandedSections((prev) => ({ ...prev, [key]: !prev[key] }));
 
-  /* ------------------------------ FILTER HANDLERS ----------------------------- */
 
   const updateFilter = (key: keyof Filters, value: any) =>
     onFilterChange({ ...filters, [key]: value });
@@ -102,7 +94,7 @@ export default function FilterPanel({
     updateFilter(key, updated);
   };
 
-  /* ----------------------------- CLEAR ALL ----------------------------- */
+
   const handleClearAll = () => {
     const defaultFilters: Filters = {
       category: "all",
@@ -116,7 +108,6 @@ export default function FilterPanel({
     onFilterChange(defaultFilters);
   };
 
-  /* --------------------------- FILTER CONTENT JSX --------------------------- */
 
   const filterContent = (
     <>
@@ -132,12 +123,18 @@ export default function FilterPanel({
         </div>
 
         <div className="flex items-center space-x-2">
+         
+
           <button
-            onClick={handleClearAll}
-            className="text-sm text-accent hover:opacity-80 transition-smooth"
-          >
-            Clear All
-          </button>
+  onClick={handleClearAll}
+  className="text-sm cursor-pointer 
+  bg-red-500 text-white rounded-md 
+  px-4 py-2 shadow-sm
+  hover:bg-red-600 active:scale-95 
+  transition-all"
+>
+  Clear All
+</button>
 
           {/* Close button (mobile) */}
           {isMobileOpen && (
@@ -152,7 +149,7 @@ export default function FilterPanel({
       </div>
 
       <div className="overflow-y-auto flex-1">
-        {/* -------------------------- CATEGORY -------------------------- */}
+       
         <Section
           title="Category"
           expanded={expandedSections.category}
@@ -166,8 +163,11 @@ export default function FilterPanel({
                   name="category"
                   checked={filters.category === cat.id}
                   onChange={() => updateFilter("category", cat.id)}
-                  className="w-4 h-4 text-accent focus:ring-2 focus:ring-ring"
+                  className="w-4 h-4 text-blue-600 focus:ring-blue-400 
+  border-gray-300"
                 />
+
+
                 <span className="text-sm">{cat.label}</span>
               </div>
               <span className="text-xs text-text-secondary">({cat.count})</span>
@@ -175,7 +175,7 @@ export default function FilterPanel({
           ))}
         </Section>
 
-        {/* -------------------------- PRICE RANGE -------------------------- */}
+   
         <Section
           title="Price Range"
           expanded={expandedSections.price}
@@ -191,7 +191,8 @@ export default function FilterPanel({
                   max="500"
                   value={priceRange[i]}
                   onChange={(e) => handlePriceChange(i, e.target.value)}
-                  className="w-full h-2 bg-muted rounded-lg cursor-pointer accent-accent"
+                  // className="w-full h-2 bg-muted rounded-lg cursor-pointer accent-accent"
+                  className="w-full h-2 rounded-lg bg-gray-200 accent-blue-600 cursor-pointer"
                 />
               ))}
             </div>
@@ -204,7 +205,6 @@ export default function FilterPanel({
           </div>
         </Section>
 
-        {/* ------------------------------ SIZES ------------------------------ */}
         <Section
           title="Size"
           expanded={expandedSections.size}
@@ -215,22 +215,22 @@ export default function FilterPanel({
               const selected = filters.sizes.includes(size);
               return (
                 <button
-                  key={size}
-                  onClick={() => toggleArrayFilter("sizes", size)}
-                  className={`px-4 py-2 text-sm font-medium rounded-md border min-h-touch transition-smooth ${
-                    selected
-                      ? "bg-primary text-primary-foreground border-primary"
-                      : "bg-background text-text-primary border-border hover:bg-muted"
-                  }`}
-                >
-                  {size}
-                </button>
+                key={size}
+                onClick={() => toggleArrayFilter("sizes", size)}
+                className={`px-4 py-2 cursor-pointer text-sm font-medium rounded-md border min-h-touch transition-smooth ${
+                  selected
+                    ? "bg-blue-600 text-white border-blue-600"
+                    : "bg-background text-text-primary border-border hover:bg-blue-100"
+                }`}
+              >
+                {size}
+              </button>
               );
             })}
           </div>
         </Section>
 
-        {/* ----------------------------- COLORS ----------------------------- */}
+   
         <Section
           title="Color"
           expanded={expandedSections.color}
@@ -241,26 +241,26 @@ export default function FilterPanel({
               const selected = filters.colors.includes(color.id);
               return (
                 <button
-                  key={color.id}
-                  onClick={() => toggleArrayFilter("colors", color.id)}
-                  className={`flex flex-col items-center space-y-2 p-2 rounded-md border min-h-touch transition-smooth ${
-                    selected
-                      ? "border-primary bg-muted"
-                      : "border-border hover:bg-muted"
-                  }`}
-                >
-                  <div
-                    className="w-8 h-8 rounded-full border-2 border-border"
-                    style={{ backgroundColor: color.hex }}
-                  />
-                  <span className="text-xs">{color.label}</span>
-                </button>
+  key={color.id}
+  onClick={() => toggleArrayFilter("colors", color.id)}
+  className={`flex cursor-pointer flex-col items-center space-y-2 p-2 rounded-md min-h-touch transition-smooth 
+    ${selected ? "bg-blue-100" : "hover:bg-muted"}`}
+>
+  <div
+    className={`w-8 h-8 rounded-full border 
+      ${selected ? "ring-2 ring-blue-500 border-white" : ""}`}
+    style={{ backgroundColor: color.hex }}
+  />
+  <span className={`text-xs ${selected ? "text-blue-600 font-semibold" : ""}`}>
+    {color.label}
+  </span>
+</button>
               );
             })}
           </div>
         </Section>
 
-        {/* ------------------------------ BRANDS ------------------------------ */}
+      
         <Section
           title="Brand"
           expanded={expandedSections.brand}
@@ -273,8 +273,11 @@ export default function FilterPanel({
                   type="checkbox"
                   checked={filters.brands.includes(brand.id)}
                   onChange={() => toggleArrayFilter("brands", brand.id)}
-                  className="w-4 h-4 text-accent focus:ring-2 focus:ring-ring"
+                  className="w-4 h-4 text-blue-600 
+  focus:ring-blue-400 
+  rounded border-gray-300"
                 />
+             
                 <span className="text-sm">{brand.label}</span>
               </div>
               <span className="text-xs text-text-secondary">({brand.count})</span>
@@ -285,34 +288,33 @@ export default function FilterPanel({
     </>
   );
 
-  /* ------------------------------------------------------------------------ */
 
   return (
     <>
-      {/* Desktop */}
-      <aside className="hidden lg:block w-80 bg-card border border-border rounded-lg overflow-hidden h-fit sticky top-24">
-        {filterContent}
-      </aside>
 
-      {/* Mobile Drawer */}
+<aside className="hidden lg:block w-80 bg-white border border-gray-200 
+rounded-xl overflow-hidden h-fit sticky top-24 shadow-sm">
+  {filterContent}
+</aside>
+
+    
       {isMobileOpen && (
         <div className="lg:hidden fixed inset-0 z-[1100] flex">
           <div
             className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onClick={onMobileClose}
           />
-          <div className="relative w-full max-w-sm bg-card ml-auto flex flex-col h-full slide-in-right">
-            {filterContent}
-          </div>
+         <div className="relative w-full max-w-sm bg-white 
+shadow-xl rounded-l-xl ml-auto flex flex-col h-full animate-slideInRight">
+  {filterContent}
+</div>
         </div>
       )}
     </>
   );
 }
 
-/* -------------------------------------------------------------------------- */
-/*                              REUSABLE UI                                   */
-/* -------------------------------------------------------------------------- */
+
 
 interface SectionProps {
   title: string;
@@ -323,28 +325,40 @@ interface SectionProps {
 
 function Section({ title, expanded, onToggle, children }: SectionProps) {
   return (
-    <div className="border-b border-border">
+    <div className="border-b border-gray-200">
       <button
         onClick={onToggle}
-        className="flex items-center justify-between w-full p-4 hover:bg-muted transition-smooth"
+        className="flex items-center justify-between w-full p-4 
+        hover:bg-gray-50 rounded-md transition-all duration-200"
       >
-        <span className="text-sm font-semibold text-text-primary">{title}</span>
+        <span className="text-sm font-semibold text-gray-800">{title}</span>
+
         <Icon
           name="ChevronDownIcon"
           size={20}
           variant="outline"
-          className={`transition-transform ${expanded ? "rotate-180" : ""}`}
+          className={`transition-transform duration-200 ${
+            expanded ? "rotate-180" : ""
+          }`}
         />
       </button>
 
-      {expanded && <div className="px-4 pb-4">{children}</div>}
+      {expanded && (
+        <div className="px-4 pb-4 pt-1 animate-fadeIn">{children}</div>
+      )}
     </div>
   );
 }
 
 function LabelRow({ children }: { children: React.ReactNode }) {
   return (
-    <label className="flex items-center justify-between cursor-pointer hover:bg-muted p-2 rounded-md min-h-touch transition-smooth">
+    <label
+      className="flex items-center justify-between cursor-pointer 
+      hover:bg-gray-50 
+      p-2 rounded-md 
+      transition-all duration-200 
+      text-gray-700"
+    >
       {children}
     </label>
   );
