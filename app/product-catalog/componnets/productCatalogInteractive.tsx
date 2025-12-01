@@ -1,30 +1,18 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import Link from 'next/link';
 import FilterPanel from './filterPanel';
-import SortControls, { SortOptionId } from './sortControl';
+import SortControls from './sortControl';
 import ProductGrid from './productGrid';
 import type { Product } from '@/types/product';
 import { useAuthUser } from '@/hooks/useAuthUser';
 import { useCart } from '@/hooks/useCart';
-
-export interface Filters {
-  category: string;
-  priceRange: [number, number];
-  sizes: string[];
-  colors: string[];
-  brands: string[];
-}
-
-interface ProductCatalogInteractiveProps {
-  initialProducts: Product[];
-}
+import { Filters, ProductCatalogInteractiveProps, SortOptionId } from '../interface';
 
 
-export default function ProductCatalogInteractive({
+const  ProductCatalogInteractive=({
   initialProducts,
-}: ProductCatalogInteractiveProps) {
+}: ProductCatalogInteractiveProps) =>{
   const { user } = useAuthUser();
   const { addItem, items: cartItems } = useCart({ userId: user?.uid });
 
@@ -153,7 +141,7 @@ export default function ProductCatalogInteractive({
         message: `${product.name} added to your cart.`,
       });
       return true;
-    } catch (error: any) {
+    } catch (error:Error | any) {
       setToast({
         type: 'error',
         message: error?.message || 'Unable to add item to cart. Please try again.',
@@ -224,3 +212,6 @@ export default function ProductCatalogInteractive({
     </div>
   );
 }
+
+
+export default ProductCatalogInteractive

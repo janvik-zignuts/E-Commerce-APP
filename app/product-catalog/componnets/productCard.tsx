@@ -4,19 +4,13 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Icon from "@/componnets/ui/appIcon";
 import AppImage from "@/componnets/ui/appImage";
-import type { Product } from "@/types/product";
+import { ProductCardProps } from "../interface";
 
-interface ProductCardProps {
-  product: Product;
-  onAddToCart: (product: Product) => Promise<boolean>;
-  isInCart?: boolean;
-}
-
-export default function ProductCard({
+const ProductCard=({
   product,
   onAddToCart,
   isInCart = false,
-}: ProductCardProps) {
+}: ProductCardProps)=> {
   const router = useRouter();
   const [imageLoading, setImageLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
@@ -153,3 +147,6 @@ export default function ProductCard({
     </div>
   );
 }
+
+
+export default ProductCard

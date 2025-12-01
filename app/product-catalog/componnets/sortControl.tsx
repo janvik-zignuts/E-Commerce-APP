@@ -1,36 +1,16 @@
 "use client";
 
-import Icon from "@/componnets/ui/appIcon";
+import { sortOptions } from "../constant";
+import { SortControlsProps, SortOptionId } from "../interface";
 
-export type SortOptionId =
-  | "relevance"
-  | "price-low"
-  | "price-high"
-  | "newest"
-  | "rating";
-
-interface SortControlsProps {
-  sortBy: SortOptionId;
-  onSortChange: (value: SortOptionId) => void;
-  onFilterToggle: () => void;
-}
-
-export default function SortControls({
+const  SortControls=({
   sortBy,
   onSortChange,
-  onFilterToggle,
-}: SortControlsProps) {
-  const sortOptions: { id: SortOptionId; label: string }[] = [
-    { id: "relevance", label: "Relevance" },
-    { id: "price-low", label: "Price: Low to High" },
-    { id: "price-high", label: "Price: High to Low" },
-    { id: "newest", label: "Newest Arrivals" },
-    { id: "rating", label: "Customer Rating" },
-  ];
+}: SortControlsProps) =>{
+ 
 
   return (
     
-
 <div className="relative">
 <select
   id="sort-select"
@@ -66,3 +46,6 @@ export default function SortControls({
 
   );
 }
+
+
+export default SortControls;

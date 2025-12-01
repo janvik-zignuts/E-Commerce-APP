@@ -2,61 +2,16 @@
 
 import { useState } from "react";
 import Icon from "@/componnets/ui/appIcon";
+import { BRANDS, CATEGORIES, COLORS, SIZES } from "../constant";
+import { FilterPanelProps, Filters, SectionProps } from "../interface";
 
-
-
-export interface Filters {
-  category: string;
-  priceRange: [number, number];
-  sizes: string[];
-  colors: string[];
-  brands: string[];
-}
-
-interface FilterPanelProps {
-  filters: Filters;
-  productCount: number;
-  isMobileOpen: boolean;
-  onMobileClose: () => void;
-  onFilterChange: (newFilters: Filters) => void;
-}
-
-
-const CATEGORIES = [
-  { id: "all", label: "All Products", count: 156 },
-  { id: "mens", label: "Men's Fashion", count: 64 },
-  { id: "womens", label: "Women's Fashion", count: 72 },
-  { id: "accessories", label: "Accessories", count: 20 },
-];
-
-const SIZES = ["XS", "S", "M", "L", "XL", "XXL"];
-
-const COLORS = [
-  { id: "black", label: "Black", hex: "#000000" },
-  { id: "white", label: "White", hex: "#FFFFFF" },
-  { id: "red", label: "Red", hex: "#DC2626" },
-  { id: "blue", label: "Blue", hex: "#2563EB" },
-  { id: "green", label: "Green", hex: "#059669" },
-  { id: "gray", label: "Gray", hex: "#6B7280" },
-];
-
-const BRANDS = [
-  { id: "nike", label: "Nike", count: 28 },
-  { id: "adidas", label: "Adidas", count: 24 },
-  { id: "zara", label: "Zara", count: 32 },
-  { id: "hm", label: "H&M", count: 26 },
-  { id: "uniqlo", label: "Uniqlo", count: 22 },
-];
-
-
-
-export default function FilterPanel({
+const  FilterPanel=({
   filters,
   productCount,
   isMobileOpen,
   onMobileClose,
   onFilterChange,
-}: FilterPanelProps) {
+}: FilterPanelProps)=> {
   const [priceRange, setPriceRange] = useState<[number, number]>(
     filters.priceRange
   );
@@ -291,7 +246,6 @@ export default function FilterPanel({
 
   return (
     <>
-
 <aside className="hidden lg:block w-80 bg-white border border-gray-200 
 rounded-xl overflow-hidden h-fit sticky top-24 shadow-sm">
   {filterContent}
@@ -314,16 +268,9 @@ shadow-xl rounded-l-xl ml-auto flex flex-col h-full animate-slideInRight">
   );
 }
 
+export default FilterPanel;
 
-
-interface SectionProps {
-  title: string;
-  expanded: boolean;
-  onToggle: () => void;
-  children: React.ReactNode;
-}
-
-function Section({ title, expanded, onToggle, children }: SectionProps) {
+const  Section=({ title, expanded, onToggle, children }: SectionProps) =>{
   return (
     <div className="border-b border-gray-200">
       <button
@@ -350,7 +297,7 @@ function Section({ title, expanded, onToggle, children }: SectionProps) {
   );
 }
 
-function LabelRow({ children }: { children: React.ReactNode }) {
+const  LabelRow=({ children }: { children: React.ReactNode })=> {
   return (
     <label
       className="flex items-center justify-between cursor-pointer 
@@ -363,3 +310,4 @@ function LabelRow({ children }: { children: React.ReactNode }) {
     </label>
   );
 }
+

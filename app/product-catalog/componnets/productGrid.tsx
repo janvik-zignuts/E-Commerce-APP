@@ -1,21 +1,14 @@
 'use client';
 
+import { ProductGridProps } from '../interface';
 import ProductCard from './productCard';
-import type { Product } from '@/types/product';
 
-interface ProductGridProps {
-  products: Product[];
-  onAddToCart: (product: Product) => Promise<boolean>;
-  isLoading?: boolean;
-  cartProductIds?: Set<string>;
-}
-
-export default function ProductGrid({
+const  ProductGrid=({
   products,
   onAddToCart,
   isLoading = false,
   cartProductIds,
-}: ProductGridProps) {
+}: ProductGridProps) =>{
  
   if (isLoading) {
     return (
@@ -84,3 +77,6 @@ export default function ProductGrid({
     </div>
   );
 }
+
+
+export default ProductGrid;
