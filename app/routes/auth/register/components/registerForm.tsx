@@ -76,7 +76,7 @@ const  RegistrationForm=() =>{
         body: JSON.stringify(data),
       });
 
-      router.push("/login");
+      router.push("/routes/auth/login");
     } catch (error: any) {
       if (error.code === "auth/email-already-in-use") {
         alert("This email is already registered.");

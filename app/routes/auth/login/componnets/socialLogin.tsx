@@ -64,7 +64,7 @@ const  SocialLogin=({ isLoading = false }: SocialLoginProps)=> {
 
         console.log("User:", result.user);
 
-        window.location.href = "/product-catalog";
+        window.location.href = "/routes/product-catalog";
       } catch (err) {
         const error = err as Error;
         console.error(`${providerName} Login Error:`, error);

@@ -1,4 +1,4 @@
-import { importProducts } from "@/app/actions/importProducts";
+import { importProducts } from "@/app/routes/actions/importProducts";
 
 export async function GET() {
   const result = await importProducts();

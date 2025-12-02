@@ -40,7 +40,7 @@ const LoginInteractive=() =>{
             <p className="text-sm text-text-secondary">
               Don&apos;t have an account?{' '}
               <Link
-                href="/register"
+                href="/routes/auth/register"
                 className="text-accent font-medium hover:opacity-80 transition-smooth"
               >
                 Create Account

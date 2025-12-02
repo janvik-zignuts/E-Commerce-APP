@@ -34,7 +34,7 @@ const RegistrationInteractive=({ initialData }:RegistrationInteractiveProps) =>{
             <p className="text-sm text-text-secondary">
               Already have an account?{' '}
               <Link
-                href="/login"
+                href="/routes/auth/login"
                 className="text-accent font-medium hover:underline transition-smooth"
               >
                 Sign in here

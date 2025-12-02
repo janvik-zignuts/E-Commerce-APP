@@ -86,7 +86,7 @@ const LoginForm=({ onSuccess }: LoginFormProps) =>{
       }
 
       onSuccess?.();
-      router.push("/product-catalog");
+      router.push("/routes/product-catalog");
     } catch (err: any) {
       let msg = err.message || "Login failed. Try again.";
 

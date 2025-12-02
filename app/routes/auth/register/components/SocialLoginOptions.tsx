@@ -24,9 +24,9 @@ const  SocialLoginOptions=({ isLoading = false }: SocialLoginOptionsProps) =>{
       const userInfo = getAdditionalUserInfo(result);
       
       if (userInfo?.isNewUser) {
-        window.location.href = "/product-catalog";
+        window.location.href = "/routes/product-catalog";
       } else {
-        window.location.href = "/product-catalog";
+        window.location.href = "/routes/product-catalog";
       }
     } catch (err) {
       console.error("Social login error:", err);
