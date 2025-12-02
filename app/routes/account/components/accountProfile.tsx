@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Icon from '@/componnets/ui/appIcon';
 import { useAuthUser } from '@/hooks/useAuthUser';
 import { auth } from '@/lib/firbase';
-import { updateProfile } from 'firebase/auth';
+import {  updateProfile } from 'firebase/auth';
 import { updateUserInFirestore } from '@/app/routes/actions/updateUser';
 import { useToast } from '@/componnets/ui/toastProvider';
 
@@ -14,6 +14,9 @@ const AccountProfile = () => {
   const { showToast } = useToast(); 
   const [editing, setEditing] = useState(false);
   const [newName, setNewName] = useState("");
+ 
+
+  
 
   if (loading) {
     return (

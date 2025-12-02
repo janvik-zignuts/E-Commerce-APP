@@ -1,8 +1,9 @@
 'use client';
 
-import { auth, googleProvider, facebookProvider } from '@/lib/firbase';
+import { auth, googleProvider } from '@/lib/firbase';
 import { getAdditionalUserInfo, signInWithPopup, AuthProvider } from 'firebase/auth';
 import { SocialLoginOptionsProps, SocialProvider } from '../interface';
+import { useRouter } from 'next/navigation';
 
 const  SocialLoginOptions=({ isLoading = false }: SocialLoginOptionsProps) =>{
   
@@ -18,20 +19,20 @@ const  SocialLoginOptions=({ isLoading = false }: SocialLoginOptionsProps) =>{
 
   ];
 
-  const handleSocialLogin = async (provider: AuthProvider) => {
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const userInfo = getAdditionalUserInfo(result);
-      
-      if (userInfo?.isNewUser) {
-        window.location.href = "/routes/product-catalog";
-      } else {
-        window.location.href = "/routes/product-catalog";
-      }
-    } catch (err) {
-      console.error("Social login error:", err);
-    }
-  };
+const handleSocialLogin = async (provider: AuthProvider) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const router = useRouter();
+
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const userInfo = getAdditionalUserInfo(result);
+    console.log("🚀 ~ handleSocialLogin ~ userInfo:", userInfo)
+
+    router.push("/routes/product-catalog");
+  } catch (err) {
+    console.error("Social login error:", err);
+  }
+};
 
   return (
     <div className="space-y-4 mt-4">

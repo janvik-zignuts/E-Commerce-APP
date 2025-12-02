@@ -10,6 +10,7 @@ import Icon from "@/componnets/ui/appIcon";
 import { auth } from "@/lib/firbase";
 import { loginSchema } from "@/lib/validator";
 import api from "@/lib/axios";
+import { FirebaseError } from "firebase/app";
 
 
 type LoginFormValues = Yup.InferType<typeof loginSchema>;
@@ -79,8 +80,9 @@ const LoginForm=({ onSuccess }: LoginFormProps) =>{
 
     onSuccess?.();
     router.push("/routes/product-catalog");
-  } catch (err: any) {
-    let msg = err.response?.data?.error || err.message || "Login failed. Try again.";
+  } catch (error) {
+    const err=error as FirebaseError
+    let msg = err.message || "Login failed. Try again.";
 
     if (msg.includes("auth/invalid-credential")) {
       msg = "Incorrect email or password.";

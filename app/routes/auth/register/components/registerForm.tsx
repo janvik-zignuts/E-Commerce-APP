@@ -1,20 +1,21 @@
-"use client";
 
+"use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { FirebaseError } from "firebase/app";
 import { useForm } from "react-hook-form";
-import * as Yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import Icon from "@/componnets/ui/appIcon";
 import {
   createUserWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+import Icon from "@/componnets/ui/appIcon";
 import { auth } from "@/lib/firbase";
 import { RegisterSchema } from "@/lib/validator";
 import api from "@/lib/axios";
 
-type RegisterFormData = Yup.InferType<typeof RegisterSchema>;
+import { RegisterFormData } from "../interface";
 
 const  RegistrationForm=() =>{
   const router = useRouter();
@@ -25,7 +26,7 @@ const  RegistrationForm=() =>{
     handleSubmit,
     formState: { errors },
   } = useForm<RegisterFormData>({
-    resolver: yupResolver(RegisterSchema) as any,
+    resolver: yupResolver(RegisterSchema) ,
     mode: "onChange",
   });
 
@@ -52,10 +53,11 @@ const onSubmit = async (data: RegisterFormData) => {
     });
 
     router.push("/routes/auth/login");
-  } catch (error: any) {
-    if (error.code === "auth/email-already-in-use") {
+  } catch (error) {
+      const err = error as FirebaseError;
+    if (err.code === "auth/email-already-in-use") {
       alert("This email is already registered.");
-    } else if (error.code === "auth/weak-password") {
+    } else if (err.code === "auth/weak-password") {
       alert("Password is too weak.");
     } else {
       alert("Registration failed. Try again.");

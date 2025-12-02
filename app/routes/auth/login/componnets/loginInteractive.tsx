@@ -8,6 +8,7 @@ import SocialLogin from './socialLogin';
 
 const LoginInteractive=() =>{
   const [isLoading, setIsLoading] = useState(false);
+  console.log("🚀 ~ LoginInteractive ~ isLoading:", isLoading)
 
   const handleLoginSuccess = () => {
     setIsLoading(false);
@@ -32,7 +33,7 @@ const LoginInteractive=() =>{
           <LoginForm onSuccess={handleLoginSuccess} />
 
           <div className="mt-6">
-            <SocialLogin isLoading={isLoading} />
+            <SocialLogin />
           </div>
 
 

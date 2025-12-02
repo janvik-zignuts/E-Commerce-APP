@@ -6,9 +6,13 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import { useCallback } from "react";
-import { ProviderConfig, SocialLoginProps } from "../interface";
+import { useCallback, useState } from "react";
+import { ProviderConfig } from "../interface";
 
+// Simple loader spinner
+const Spinner = () => (
+  <div className="w-5 h-5 border-2 border-gray-300 border-t-transparent rounded-full animate-spin mr-2"></div>
+);
 
 const GoogleIcon = () => (
   <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
@@ -31,7 +35,9 @@ const GoogleIcon = () => (
   </svg>
 );
 
-const  SocialLogin=({ isLoading = false }: SocialLoginProps)=> {
+const SocialLogin = () => {
+  const [localLoading, setLocalLoading] = useState(false);
+
   const socialProviders: ProviderConfig[] = [
     {
       name: "Google",
@@ -44,11 +50,12 @@ const  SocialLogin=({ isLoading = false }: SocialLoginProps)=> {
 
   const handleSocialLogin = useCallback(
     async (providerName: ProviderConfig["name"]) => {
-      if (isLoading) return;
+      if (localLoading) return;
 
       try {
-        let provider;
+        setLocalLoading(true); // start loader
 
+        let provider;
         switch (providerName) {
           case "Google":
             provider = new GoogleAuthProvider();
@@ -69,9 +76,11 @@ const  SocialLogin=({ isLoading = false }: SocialLoginProps)=> {
         const error = err as Error;
         console.error(`${providerName} Login Error:`, error);
         alert(error.message || "Social login failed.");
+      } finally {
+        setLocalLoading(false); // stop loader
       }
     },
-    [isLoading]
+    [localLoading]
   );
 
   return (
@@ -88,22 +97,29 @@ const  SocialLogin=({ isLoading = false }: SocialLoginProps)=> {
       </div>
 
       <div className="grid gap-3">
-        {socialProviders.map((provider) => (
-          <button
-            key={provider.name}
-            type="button"
-            onClick={() => handleSocialLogin(provider.name)}
-            disabled={isLoading}
-            className={`flex items-center justify-center px-4 py-3 border rounded-md transition-smooth min-h-touch disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer 
+        {socialProviders.map((provider) => {
+          const isButtonLoading = localLoading;
+
+          return (
+            <button
+              key={provider.name}
+              type="button"
+              onClick={() => handleSocialLogin(provider.name)}
+              disabled={isButtonLoading}
+              className={`flex items-center justify-center px-4 py-3 border rounded-md transition-smooth min-h-touch disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer 
               ${provider.bgColor} ${provider.textColor} ${provider.borderColor}`}
-          >
-            {provider.icon}
-            <span className="text-sm font-medium">{provider.name}</span>
-          </button>
-        ))}
+            >
+              {isButtonLoading ? <Spinner /> : provider.icon}
+
+              <span className="text-sm font-medium">
+                {isButtonLoading ? "Logging in..." : provider.name}
+              </span>
+            </button>
+          );
+        })}
       </div>
     </div>
   );
-}
+};
 
 export default SocialLogin;
