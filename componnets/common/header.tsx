@@ -49,13 +49,13 @@ const  Header=({ currentUser = null, cartCount }: HeaderProps = {}) =>{
   const navigationItems = [
     {
       label: 'Shop',
-      path: '/product-catalog',
+      path: '/routes/product-catalog',
       icon: 'ShoppingBagIcon',
       adminOnly: false,
     },
     {
       label: 'Account',
-      path: effectiveUser ? '/account' : '/login',
+      path: effectiveUser ? '/routes/account' : '/routes/auth/login',
       icon: 'UserIcon',
       adminOnly: false,
     },
@@ -80,7 +80,7 @@ const  Header=({ currentUser = null, cartCount }: HeaderProps = {}) =>{
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           <Link
-            href="/product-catalog"
+            href="/routes/product-catalog"
             className="flex items-center space-x-2 hover:opacity-80 transition-smooth"
           >
             <div className="flex items-center justify-center w-10 h-10 bg-primary rounded-lg">
@@ -148,7 +148,7 @@ const  Header=({ currentUser = null, cartCount }: HeaderProps = {}) =>{
 
           <div className="flex items-center space-x-4">
             <Link
-              href="/cart"
+              href="/routes/cart"
               className="relative p-2 hover:bg-muted rounded-md transition-smooth min-h-touch min-w-touch"
               aria-label="Shopping cart"
             >

@@ -17,7 +17,7 @@ const ProductCard=({
 
   const handleButtonClick = async () => {
     if (isInCart) {
-      router.push("/cart");
+      router.push("/routes/cart");
       return;
     }
 

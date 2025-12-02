@@ -11,38 +11,14 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "@/lib/firbase";
-
-
-const RegisterSchema = Yup.object().shape({
-  fullName: Yup.string()
-    .required("Full name is required")
-    .min(2, "Name must be at least 2 characters"),
-
-  email: Yup.string()
-    .required("Email is required")
-    .email("Please enter a valid email address"),
-
-  password: Yup.string()
-    .required("Password is required")
-    .min(8, "Password must be at least 8 characters")
-    .matches(/[a-z]/, "Must include a lowercase letter")
-    .matches(/[A-Z]/, "Must include an uppercase letter")
-    .matches(/\d/, "Must include a number"),
-
-  confirmPassword: Yup.string()
-    .required("Please confirm your password")
-    .oneOf([Yup.ref("password")], "Passwords do not match"),
-
-  acceptTerms: Yup.boolean()
-    .oneOf([true], "You must accept the terms and conditions"),
-});
+import { RegisterSchema } from "@/lib/validator";
+import api from "@/lib/axios";
 
 type RegisterFormData = Yup.InferType<typeof RegisterSchema>;
 
 const  RegistrationForm=() =>{
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-
 
   const {
     register,
@@ -54,42 +30,40 @@ const  RegistrationForm=() =>{
   });
 
 
-  const onSubmit = async (data: RegisterFormData) => {
-    setIsLoading(true);
+const onSubmit = async (data: RegisterFormData) => {
+  setIsLoading(true);
 
-    try {
-      // 1️⃣ Create Firebase User
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        data.email,
-        data.password
-      );
+  try {
+    // 1️⃣ Create Firebase User
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      data.email,
+      data.password
+    );
 
-      await updateProfile(userCredential.user, {
-        displayName: data.fullName,
-      });
+    await updateProfile(userCredential.user, {
+      displayName: data.fullName,
+    });
 
-      // 2️⃣ Save to API (optional)
-      await fetch("/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+    // 2️⃣ Send to API using Axios
+    await api.post("/auth", {
+      ...data,
+      type: "register",
+    });
 
-      router.push("/routes/auth/login");
-    } catch (error: any) {
-      if (error.code === "auth/email-already-in-use") {
-        alert("This email is already registered.");
-      } else if (error.code === "auth/weak-password") {
-        alert("Password is too weak.");
-      } else {
-        alert("Registration failed. Try again.");
-      }
-    } finally {
-      setIsLoading(false);
+    router.push("/routes/auth/login");
+  } catch (error: any) {
+    if (error.code === "auth/email-already-in-use") {
+      alert("This email is already registered.");
+    } else if (error.code === "auth/weak-password") {
+      alert("Password is too weak.");
+    } else {
+      alert("Registration failed. Try again.");
     }
-  };
-
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">

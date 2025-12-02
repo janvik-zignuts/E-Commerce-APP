@@ -137,7 +137,7 @@ const  CartInteractive=()=> {
                 </p>
               </div>
               <Link
-                href="/product-catalog"
+                href="/routes/product-catalog"
                 className="inline-flex bg-blue-500 text-white items-center justify-center rounded-md border border-border px-5 py-2 font-medium hover:bg-muted transition-smooth"
               >
                 Continue Shopping

@@ -1,24 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as Yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import Icon from "@/componnets/ui/appIcon";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/lib/firbase";
+import { loginSchema } from "@/lib/validator";
+import api from "@/lib/axios";
 
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
-
-const loginSchema = Yup.object({
-  email: Yup.string()
-    .email("Enter a valid email address")
-    .required("Email is required"),
-  password: Yup.string()
-    .min(6, "Password must be at least 6 characters")
-    .required("Password is required"),
-  rememberMe: Yup.boolean().default(false),
-});
 
 type LoginFormValues = Yup.InferType<typeof loginSchema>;
 
@@ -35,7 +27,6 @@ const LoginForm=({ onSuccess }: LoginFormProps) =>{
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    setError,
   } = useForm<LoginFormValues>({
     resolver: yupResolver(loginSchema),
     defaultValues: {
@@ -45,58 +36,59 @@ const LoginForm=({ onSuccess }: LoginFormProps) =>{
     },
   });
 
-  const onSubmit = async (data: LoginFormValues) => {
-    setServerError("");
+ const onSubmit = async (data: LoginFormValues) => {
+  setServerError("");
 
+  try {
+    // 1️⃣ Try Firebase Login First
     try {
-      try {
-        const result = await signInWithEmailAndPassword(
-          auth,
-          data.email,
-          data.password
-        );
+      const result = await signInWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
 
-        if (data.rememberMe) {
-          localStorage.setItem("rememberMe", "true");
-          localStorage.setItem("userEmail", data.email);
-        }
-
-        onSuccess?.();
-        router.push("/product-catalog");
-        return;
-      } catch (firebaseError) {
-        console.log("Firebase login failed, trying API fallback…");
-      }
-
-      const res = await fetch("/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-
-      const result = await res.json();
-
-      if (!res.ok) {
-        throw new Error(result.error || "Invalid credentials");
-      }
-
+      // Remember Me
       if (data.rememberMe) {
         localStorage.setItem("rememberMe", "true");
         localStorage.setItem("userEmail", data.email);
       }
 
       onSuccess?.();
-      router.push("/routes/product-catalog");
-    } catch (err: any) {
-      let msg = err.message || "Login failed. Try again.";
-
-      if (msg.includes("auth/invalid-credential")) {
-        msg = "Incorrect email or password.";
-      }
-
-      setServerError(msg);
+      router.push("/product-catalog");
+      return;
+    } catch (firebaseError) {
+      console.log("Firebase login failed — falling back to API…");
     }
-  };
+
+    // 2️⃣ API Fallback Login (Axios)
+    const res = await api.post("/auth", {
+      ...data,
+      type: "login",
+    });
+
+    // Axios auto-parses JSON → res.data
+    const result = res.data;
+    console.log("🚀 ~ onSubmit ~ result:", result)
+
+    // Save Remember Me
+    if (data.rememberMe) {
+      localStorage.setItem("rememberMe", "true");
+      localStorage.setItem("userEmail", data.email);
+    }
+
+    onSuccess?.();
+    router.push("/routes/product-catalog");
+  } catch (err: any) {
+    let msg = err.response?.data?.error || err.message || "Login failed. Try again.";
+
+    if (msg.includes("auth/invalid-credential")) {
+      msg = "Incorrect email or password.";
+    }
+
+    setServerError(msg);
+  }
+};
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
